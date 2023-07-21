@@ -1,0 +1,103 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void createFile() {
+    char fileName[50];
+    printf("Enter the file name to create: ");
+    scanf("%s", fileName);
+
+    FILE *file = fopen(fileName, "w");
+    if (file == NULL) {
+        printf("Failed to create the file.\n");
+        return;
+    }
+    printf("File created successfully.\n");
+    fclose(file);
+}
+
+void readFile() {
+    char fileName[50];
+    printf("Enter the file name to read: ");
+    scanf("%s", fileName);
+
+    FILE *file = fopen(fileName, "r");
+    if (file == NULL) {
+        printf("File does not exist.\n");
+        return;
+    }
+
+    char ch;
+    printf("File content:\n");
+    while ((ch = fgetc(file)) != EOF) {
+        putchar(ch);
+    }
+    printf("\n");
+    fclose(file);
+}
+
+void updateFile() {
+    char fileName[50];
+    printf("Enter the file name to update: ");
+    scanf("%s", fileName);
+
+    FILE *file = fopen(fileName, "a");
+    if (file == NULL) {
+        printf("File does not exist.\n");
+        return;
+    }
+
+    char data[100];
+    printf("Enter data to append (max 100 characters): ");
+    scanf(" %[^\n]", data);
+    fprintf(file, "%s", data);
+
+    fclose(file);
+    printf("File updated successfully.\n");
+}
+
+void deleteFile() {
+    char fileName[50];
+    printf("Enter the file name to delete: ");
+    scanf("%s", fileName);
+
+    if (remove(fileName) == 0) {
+        printf("File deleted successfully.\n");
+    } else {
+        printf("Failed to delete the file.\n");
+    }
+}
+
+int main() {
+    int choice;
+    while (1) {
+        printf("\nFile Management System\n");
+        printf("1. Create File\n");
+        printf("2. Read File\n");
+        printf("3. Update File\n");
+        printf("4. Delete File\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                createFile();
+                break;
+            case 2:
+                readFile();
+                break;
+            case 3:
+                updateFile();
+                break;
+            case 4:
+                deleteFile();
+                break;
+            case 5:
+                exit(0);
+            default:
+                printf("Invalid choice. Try again.\n");
+        }
+    }
+
+    return 0;
+}
